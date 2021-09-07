@@ -3,7 +3,8 @@ package Enums;
 public class UrlEnum {
 
 	public enum urls {
-		BASE_URL("https://developer.salesforce.com/docs/component-library/documentation/en/48.0/lwc");
+		BASE_URL("https://developer.salesforce.com/docs/component-library/documentation/en/48.0/lwc"),
+		CHROME_PATH( "C:\\Users\\sangeetha\\Documents\\drivers\\chromedriver.exe");
 
 		private final String label;
 
