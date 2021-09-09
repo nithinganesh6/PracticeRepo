@@ -9,6 +9,8 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 public class ValidateEditAndUpdateDataInPreview extends SeleniumUtils {
+	
+	
 
 	@Given("the application URL and browser")
 	public void the_application_url_and_browser(DataTable dataTable) {
@@ -40,12 +42,12 @@ public class ValidateEditAndUpdateDataInPreview extends SeleniumUtils {
 	@When("under the section {string} update the values for all rows in colum {int}")
 	public void under_the_section_update_the_values_for_all_rows_in_colum(String string, Integer int1,
 			DataTable dataTable) {
-
+		UpdateTable(Identfier.TABLE_DATA.getLabel(),int1,dataTable);
 	}
 
-	@Then("Validate the data has been updated")
-	public void validate_the_data_has_been_updated() {
-
+	@Then("Validate the data has been updated for given {int}")
+	public void validate_the_data_has_been_updated(DataTable data,Integer int1) {
+		validateTableData(Identfier.TABLE_DATA.getLabel(),data,int1);
 	}
 
 }
