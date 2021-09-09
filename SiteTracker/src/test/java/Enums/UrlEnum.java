@@ -4,7 +4,8 @@ public class UrlEnum {
 
 	public enum urls {
 		BASE_URL("https://developer.salesforce.com/docs/component-library/documentation/en/48.0/lwc"),
-		CHROME_PATH( "C:\\Users\\sangeetha\\Documents\\drivers\\chromedriver.exe");
+		CHROME_PATH( "C:\\Users\\sangeetha\\Documents\\drivers\\chromedriver.exe"),
+		FIREFOX_PATH("C:\\Users\\sangeetha\\Documents\\drivers\\geckodriver.exe");
 
 		private final String label;
 

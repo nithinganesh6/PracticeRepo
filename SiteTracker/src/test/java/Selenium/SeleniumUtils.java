@@ -22,8 +22,6 @@ import io.cucumber.datatable.DataTable;
 import junit.framework.Assert;
 
 public class SeleniumUtils {
-	
-  
 
 	WebDriver driver;
 
@@ -32,15 +30,15 @@ public class SeleniumUtils {
 			System.setProperty("webdriver.chrome.driver", urls.CHROME_PATH.getLabel());
 			driver = new ChromeDriver();
 		} else if (browser.equalsIgnoreCase("firefox")) {
-			System.setProperty("webdriver.gecko.driver", "");
+			System.setProperty("webdriver.gecko.driver", urls.FIREFOX_PATH.getLabel());
 			driver = new FirefoxDriver();
 		}
 	}
 
 	private void openBrowser(String url) {
 		driver.get(url);
-	    driver.manage().window().maximize();
-	    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		// By element= By.xpath("//a[@title='']");
 		// wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(element));
 	}
@@ -65,10 +63,10 @@ public class SeleniumUtils {
 			return driver.findElement(By.id(locator));
 		} else if (identifier.equalsIgnoreCase("tagName")) {
 			return driver.findElement(By.tagName(locator));
-		}else if(identifier.equalsIgnoreCase("css")) {
+		} else if (identifier.equalsIgnoreCase("css")) {
 			return driver.findElement(By.cssSelector(locator));
 		}
-		
+
 		return null;
 	}
 
@@ -83,7 +81,7 @@ public class SeleniumUtils {
 			return driver.findElements(By.id(locator));
 		} else if (identifier.equalsIgnoreCase("tagName")) {
 			return driver.findElements(By.tagName(locator));
-		}else if (identifier.equalsIgnoreCase("css")) {
+		} else if (identifier.equalsIgnoreCase("css")) {
 			return driver.findElements(By.cssSelector(locator));
 		}
 		return null;
@@ -92,7 +90,7 @@ public class SeleniumUtils {
 
 	public void click(String element) {
 		WebElement object = getObject(element);
-		JavascriptExecutor js=(JavascriptExecutor)driver;
+		JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeScript("arguments[0].click();", object);
 	}
 
@@ -121,63 +119,60 @@ public class SeleniumUtils {
 		}
 
 	}
-	
-	
-	public void UpdateTable(String element,Integer row,DataTable data) {
-		Map<String, String> map=  data.asMaps().get(0);
+
+	public void UpdateTable(String element, Integer row, DataTable data) {
+		Map<String, String> map = data.asMaps().get(0);
 		WebElement td = null;
-		WebElement object=null;
-		String xpath="//tr["+row+"]";
-		int size=driver.findElements(By.xpath("//iframe")).size();
-	    try {
-	    	driver.switchTo().frame(0);
-	    	object= getObject(element).findElement(By.xpath(xpath));
-	    }catch(Exception e) {
-	    	driver.switchTo().defaultContent();
-	    	driver.switchTo().frame(1);
-	    	object= getObject(element).findElement(By.xpath(xpath));
-	    }
-		
-		List<WebElement> elements=object.findElements(By.tagName("td"));
-		WebElement name=object.findElement(By.tagName("th"));
-		WebElement checkbox=elements.get(1);
-		checkbox.click();
-		for(int i=2;i<=elements.size();i++) {
-			 td=elements.get(i);
-			for(String key:map.keySet()) {
-			if(td.getAttribute("data-label").equals(key)) {
-				td.findElement(By.tagName("Button")).click();
-				td.findElement(By.tagName("input")).sendKeys(map.get(key));
-				break;
-			}
-			
+		WebElement object = null;
+		String xpath = "//tr[" + row + "]";
+		int size = driver.findElements(By.xpath("//iframe")).size();
+		try {
+			driver.switchTo().frame(0);
+			object = getObject(element).findElement(By.xpath(xpath));
+		} catch (Exception e) {
+			driver.switchTo().defaultContent();
+			driver.switchTo().frame(1);
+			object = getObject(element).findElement(By.xpath(xpath));
 		}
-		
-	
+
+		List<WebElement> elements = object.findElements(By.tagName("td"));
+		WebElement name = object.findElement(By.tagName("th"));
+		WebElement checkbox = elements.get(1);
+		checkbox.click();
+		for (int i = 2; i <= elements.size(); i++) {
+			td = elements.get(i);
+			for (String key : map.keySet()) {
+				if (td.getAttribute("data-label").equals(key)) {
+					td.findElement(By.tagName("Button")).click();
+					td.findElement(By.tagName("input")).sendKeys(map.get(key));
+					break;
+				}
+
+			}
+
+		}
+
 	}
-	
-	}
-	
-	
-	public void validateTableData(String element,DataTable data,Integer row) {
-		String xpath="//tr["+row+"]";
-		
-	    WebElement	object= getObject(element).findElement(By.xpath(xpath));
-	    
-	    List<String> list= new ArrayList();
-	   
-	    String name=object.findElement(By.tagName("th")).getText();
-	    list.add(name);
-	    List<WebElement> elements=object.findElements(By.tagName("td"));
-	    for(int i=0;i<elements.size();i++) {
-	    	if(elements.get(i).getText()!=null) {
-	    		list.add(elements.get(i).getText());
-	    	}
-	    }  
-	     List<String> actual=data.asList();
-	     
-	     Assert.assertEquals(list, actual);
-	   
+
+	public void validateTableData(String element, DataTable data, Integer row) {
+		String xpath = "//tr[" + row + "]";
+
+		WebElement object = getObject(element).findElement(By.xpath(xpath));
+
+		List<String> list = new ArrayList();
+
+		String name = object.findElement(By.tagName("th")).getText();
+		list.add(name);
+		List<WebElement> elements = object.findElements(By.tagName("td"));
+		for (int i = 0; i < elements.size(); i++) {
+			if (elements.get(i).getText() != null) {
+				list.add(elements.get(i).getText());
+			}
+		}
+		List<String> actual = data.asList();
+
+		Assert.assertEquals(list, actual);
+
 	}
 
 }
